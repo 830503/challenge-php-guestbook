@@ -14,7 +14,7 @@ function clearInput($data){
     $data = htmlspecialchars($data);
     $data = stripslashes($data);
     $data = trim($data);
-    return data;
+    return $data;
 }
 
 function validateTitle($title){
@@ -63,10 +63,6 @@ function validateContent($content){
         <p>
             <label for="date">Title</label>
             <input type="text" name="title" id="title" value="">
-        </p>
-        <p>
-            <label for="date">Date</label>
-            <input type="text" name="date" id="date" value="">
         </p>
         <p>
             <label for="name">Name</label>
