@@ -39,7 +39,8 @@ require 'PostLoader.php';
             <textarea cols="50" rows="10" name="message" id="message"></textarea>
         </p>
             <button type="submit" name="submit" class="btn btn-primary">Send</button>
-        
     </form>
+
+    
 </body>
 </html>
