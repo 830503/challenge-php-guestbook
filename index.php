@@ -5,9 +5,7 @@ require 'Post.php';
 require 'PostLoader.php';
 
 $guestbook = new PostLoader();
-$howManyPostShow = 20;
-
-
+$post = $guestbook->loadPost();
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
     $errors = "";
@@ -16,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $content = validateContent($errors);
 
     if(!empty($errors)){
-        echo " <div class='alert alert-dismissible alert-danger'>     
+        echo "<div class='alert alert-dismissible alert-danger'>     
         <h4 class='alert-heading'>OOOOOOPS! !</h4> 
         <p class='mb-0'> <strong> $errors </strong>
         </p> </div>";
@@ -25,7 +23,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         //var_dump($newPost);
         $newPost->savePost();
     }
-    $howManyPostShow=$_POST["howManyPostShow"];
 }
 
 function clearInput($data){
@@ -58,8 +55,6 @@ function validateContent(&$errors){
         return clearInput($_POST["content"]);
     }
 }
-$test = $guestbook->loadPost();
-//$guestbook->getMessage($test);
 
 ?>
 
@@ -93,11 +88,9 @@ $test = $guestbook->loadPost();
         <p>
             <label for="numOfMgs">Message Display</label>
             <br>
-            <?php echo $guestbook->getMessage($test);?>
+            <?php echo $guestbook->getMessage($post);?>
         </p>
             
     </form>
-
-
 </body>
 </html>

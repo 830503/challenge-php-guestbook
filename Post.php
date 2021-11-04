@@ -34,20 +34,10 @@ class Post
    public function savePost(){
        $newPost = array("title"=>$this->title, "name"=>$this->name, "content"=>$this->content, "date"=>$this->date);
        $jsonData = json_decode(file_get_contents("posts.json"), true);
+       //push $newPost array to $jsonData[]
        $jsonData[] = $newPost;
-        //array_push($this->message, $newPost);
         $jsonData = json_encode($jsonData);
         file_put_contents("posts.json", $jsonData);
-    
    }
-
-
 }
-
-    
-
-
-
-
-
 ?>
