@@ -1,35 +1,46 @@
 <?php
-declare(strict_types=1);
-
 class PostLoader 
 {
-    private $post;
-    private $message = [];
+    //private $post;
+    //private $message = [];
 
-    function __construct(){
+    public function __construct(){
         $this->loadPost();
     }
 
-    function loadPost(){
-        $jsonData = file_get_contents("posts.json");
-        $this->message = unserialize(json_decode($jsonData));
+    public function loadPost(){
+        $jsonData = json_decode(file_get_contents("posts.json"));
+       // $jsonData[] = $this->message;
+       
+       
+       return $jsonData;
     }
+    
 
-    function savePost(){
-        array_push($this->message, $post);
-        $jsonData = json_encode(serialize($this->message));
-        file_put_contents("posts.json", $jsonData);
-    }
+    public function getMessage($posts){
+        for ($i=count($posts)-1; $i > 0 ; $i--) { 
+            echo $posts[$i]->title;
+            echo  $posts[$i]->name;
+            echo  $posts[$i]->content;
+            echo  $posts[$i]->date;
+        }
 
-    function getMessage($numOfMgs){
-        $messageDisplay = "";
+
+        /*foreach($test as $key => $value){
+            echo $test[$key]->title;
+        }*/
+
+
+
+
+       /* $messageDisplay = "";
         $orderMgs = array_reverse($this->message);
-        foreach($orderMgs as $i => $eachMgs){
-            if($i < $numOfMgs){
+        foreach($orderMgs as $index => $eachMgs){
+            if($index < $howManyPostShow){
                 $title = $eachMgs->getTitle();
                 $date = $eachMgs->getDate();
-                $content = getContent();
-                $name = getName();
+                $content = $eachMgs->getContent();
+                $name = $eachMgs->getName();
 
                 $messageDisplay = $messageDisplay . "
                 <ul>
@@ -42,7 +53,7 @@ class PostLoader
                 ";
             }
         }
-        return $messageDisplay;
+        return $messageDisplay;*/
 
     }
 

@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 class Post 
 {
     private $title;
@@ -9,11 +7,11 @@ class Post
     private $name;
     
 
-    function __construct ($title, $name, $content, $date){
+    function __construct ($title, $name, $content){
         $this->title=$title;
         $this->name=$name;
-        $this->message=$content;
-        $this->date=$date("h:i:s l d/m/y");
+        $this->content=$content;
+        $this->date=date("h:i:s l d/m/y");
 
     }
 
@@ -33,12 +31,22 @@ class Post
         return $this->name;
     }
 
-    function savePost(){
-        $message = array("title"=>$this->title, "name"=>$this->name, "date"=>$this->date, "content"=>$this->content);
-        $jsonData = json_encode(serialize($this->message));
+   public function savePost(){
+       $newPost = array("title"=>$this->title, "name"=>$this->name, "content"=>$this->content, "date"=>$this->date);
+       $jsonData = json_decode(file_get_contents("posts.json"), true);
+       $jsonData[] = $newPost;
+        //array_push($this->message, $newPost);
+        $jsonData = json_encode($jsonData);
         file_put_contents("posts.json", $jsonData);
-    }
+    
+   }
+
+
 }
+
+    
+
+
 
 
 

@@ -5,8 +5,8 @@ require 'Post.php';
 require 'PostLoader.php';
 
 $guestbook = new PostLoader();
-$$numOfMgs = 20;
-$errors = "";
+$howManyPostShow = 20;
+
 
 
 if($_SERVER["REQUEST_METHOD"]=="POST"){
@@ -14,16 +14,18 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
     $title = validateTitle($errors);
     $name = validateName($errors);
     $content = validateContent($errors);
-    if(array_filter($errors)){
+
+    if(!empty($errors)){
         echo " <div class='alert alert-dismissible alert-danger'>     
         <h4 class='alert-heading'>OOOOOOPS! !</h4> 
-        <p class='mb-0'> <strong>  Try again! </strong>
+        <p class='mb-0'> <strong> $errors </strong>
         </p> </div>";
     }else{
-        $newPost = new Post($title, $name, $content, $date);
-        $guestbook->savePost();
+        $newPost = new Post($title, $name, $content);
+        //var_dump($newPost);
+        $newPost->savePost();
     }
-    $numOfMgs=$_POST["numOfMgs"];
+    $howManyPostShow=$_POST["howManyPostShow"];
 }
 
 function clearInput($data){
@@ -33,32 +35,33 @@ function clearInput($data){
     return $data;
 }
 
-function validateTitle($errors){
+function validateTitle(&$errors){
     if(empty($_POST["title"])){
-        $errors = $errors . ", Title is empty";
+        $errors = $errors . " Title is empty.";
     }else{
         return clearInput($_POST["title"]);
     }
 }
 
-function validateName($errors){
+function validateName(&$errors){
     if(empty($_POST["name"])){
-        $errors = $errors . ", Name is empty";
+        $errors = $errors . " Name is empty.";
     }else{
         return clearInput($_POST["name"]);
     }
 }
 
-function validateContent($errors){
+function validateContent(&$errors){
     if(empty($_POST["content"])){
-        $errors = $errors . ", Content is empty";
+        $errors = $errors . " Content is empty.";
     }else{
         return clearInput($_POST["content"]);
     }
 }
+$test = $guestbook->loadPost();
+//$guestbook->getMessage($test);
 
 ?>
-
 
 
 
@@ -83,13 +86,14 @@ function validateContent($errors){
             <input type="text" name="name" id="name" value="">
         </p>
         <p>
-            <label for="message">Message</label>
-            <textarea cols="50" rows="10" name="message" id="message"></textarea>
+            <label for="content">Message</label>
+            <textarea cols="50" rows="10" name="content" id="content"></textarea>
         </p>
             <button type="submit" name="submit" class="btn btn-primary">Send</button>
         <p>
             <label for="numOfMgs">Message Display</label>
-            <input type="text" name="numOfMgs" id="numOfMgs" value=<?php echo $guestbook->getMessage($numOfMgs);?>>
+            <br>
+            <?php echo $guestbook->getMessage($test);?>
         </p>
             
     </form>
