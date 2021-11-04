@@ -7,8 +7,24 @@ require 'PostLoader.php';
 $guestbook = new PostLoader();
 $$numOfMgs = 20;
 $errors = "";
-$newPost = new Post($title, $name, $content, $date);
 
+
+if($_SERVER["REQUEST_METHOD"]=="POST"){
+    $errors = "";
+    $title = validateTitle($errors);
+    $name = validateName($errors);
+    $content = validateContent($errors);
+    if(array_filter($errors)){
+        echo " <div class='alert alert-dismissible alert-danger'>     
+        <h4 class='alert-heading'>OOOOOOPS! !</h4> 
+        <p class='mb-0'> <strong>  Try again! </strong>
+        </p> </div>";
+    }else{
+        $newPost = new Post($title, $name, $content, $date);
+        $guestbook->savePost();
+    }
+    $numOfMgs=$_POST["numOfMgs"];
+}
 
 function clearInput($data){
     $data = htmlspecialchars($data);
@@ -17,7 +33,7 @@ function clearInput($data){
     return $data;
 }
 
-function validateTitle($title){
+function validateTitle($errors){
     if(empty($_POST["title"])){
         $errors = $errors . ", Title is empty";
     }else{
@@ -25,7 +41,7 @@ function validateTitle($title){
     }
 }
 
-function validateName($name){
+function validateName($errors){
     if(empty($_POST["name"])){
         $errors = $errors . ", Name is empty";
     }else{
@@ -33,15 +49,13 @@ function validateName($name){
     }
 }
 
-function validateContent($content){
+function validateContent($errors){
     if(empty($_POST["content"])){
         $errors = $errors . ", Content is empty";
     }else{
         return clearInput($_POST["content"]);
     }
 }
-
-
 
 ?>
 
@@ -73,6 +87,11 @@ function validateContent($content){
             <textarea cols="50" rows="10" name="message" id="message"></textarea>
         </p>
             <button type="submit" name="submit" class="btn btn-primary">Send</button>
+        <p>
+            <label for="numOfMgs">Message Display</label>
+            <input type="text" name="numOfMgs" id="numOfMgs" value=<?php echo $guestbook->getMessage($numOfMgs);?>>
+        </p>
+            
     </form>
 
 

@@ -7,6 +7,7 @@ class Post
     private $date;
     private $content;
     private $name;
+    
 
     function __construct ($title, $name, $content, $date){
         $this->title=$title;
@@ -30,6 +31,12 @@ class Post
 
     public function getName(){
         return $this->name;
+    }
+
+    function savePost(){
+        $message = array("title"=>$this->title, "name"=>$this->name, "date"=>$this->date, "content"=>$this->content);
+        $jsonData = json_encode(serialize($this->message));
+        file_put_contents("posts.json", $jsonData);
     }
 }
 
